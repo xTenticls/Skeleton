@@ -1,0 +1,168 @@
+local function addskeletonesp(player)
+    spawn(function()
+        local supported = true
+        local parttbl = {"Head", "LowerTorso", "RightUpperLeg", "LeftUpperLeg", "RightLowerLeg", "LeftLowerLeg", "RightFoot", "LeftFoot", "LeftUpperArm", "RightUpperArm", "RightLowerArm", "LeftLowerArm", "LeftHand", "RightHand"}
+        for i,v in pairs(parttbl) do
+            if player.Character:FindFirstChild(v) == nil then
+                supported = false
+            end
+        end
+        if supported then
+            function createline(from, to)
+                local Camera = Workspace.CurrentCamera
+                local Line = Drawing.new("Line")
+                Line.Visible = true
+                Line.From = Vector2.new(from.X, from.Y)
+                Line.To = Vector2.new(to.X, to.Y)
+                Line.Color = Color3.fromRGB(255, 255, 255)
+                Line.Thickness = 3
+                Line.Transparency = 1
+                return Line
+            end
+            
+            function getpos(pos)
+                return Vector2.new(pos.X, pos.Y)
+            end
+            
+            local Camera = Workspace.CurrentCamera
+            
+            local TopTorso = Camera:WorldToViewportPoint(player.Character.Head.Position - Vector3.new(0,0.7,0))
+            local BottomTorso = Camera:WorldToViewportPoint(player.Character.LowerTorso.Position - Vector3.new(0,0.2,0))
+            
+            local MainLine = createline(TopTorso, BottomTorso)
+            
+            local RightLeg = Camera:WorldToViewportPoint(player.Character.RightUpperLeg.Position + Vector3.new(0,0.2,0))
+            local RightLegLine = createline(BottomTorso, RightLeg)
+            
+            local LeftLeg = Camera:WorldToViewportPoint(player.Character.LeftUpperLeg.Position + Vector3.new(0,0.2,0))
+            local LeftLegLine = createline(BottomTorso, LeftLeg)
+            
+            local RightKnee = Camera:WorldToViewportPoint(player.Character.RightLowerLeg.Position + Vector3.new(0,0.2,0))
+            local RightKneeLine = createline(RightLeg, RightKnee)
+            
+            local LeftKnee = Camera:WorldToViewportPoint(player.Character.LeftLowerLeg.Position + Vector3.new(0,0.2,0))
+            local LeftKneeLine = createline(LeftLeg, LeftKnee)
+            
+            local RightFoot = Camera:WorldToViewportPoint(player.Character.RightFoot.Position)
+            local RightFootLine = createline(RightKnee, RightFoot)
+            
+            local LeftFoot = Camera:WorldToViewportPoint(player.Character.LeftFoot.Position)
+            local LeftFootLine = createline(LeftKnee, LeftFoot)
+            
+            local LeftArm = Camera:WorldToViewportPoint(player.Character.LeftUpperArm.Position + Vector3.new(0,0.2,0))
+            local LeftLine = createline(TopTorso, LeftArm)
+            
+            local RightArm = Camera:WorldToViewportPoint(player.Character.RightUpperArm.Position + Vector3.new(0,0.2,0))
+            local RightLine = createline(TopTorso, RightArm)
+            
+            local RightElbow = Camera:WorldToViewportPoint(player.Character.RightLowerArm.Position + Vector3.new(0,0.2,0))
+            local RightElbowLine = createline(RightArm, RightElbow)
+            
+            local LeftElbow = Camera:WorldToViewportPoint(player.Character.LeftLowerArm.Position + Vector3.new(0,0.2,0))
+            local LeftElbowLine = createline(LeftArm, LeftElbow)
+            
+            local LeftHand = Camera:WorldToViewportPoint(player.Character.LeftHand.Position)
+            local LeftHandLine = createline(LeftElbow, LeftHand)
+            
+            local RightHand = Camera:WorldToViewportPoint(player.Character.RightHand.Position)
+            local RightHandLine = createline(RightElbow, RightHand)
+            
+            game:GetService("RunService").RenderStepped:Connect(function()
+                local Camera = Workspace.CurrentCamera
+                if player.Character ~= nil and player.Character:FindFirstChild("Humanoid") ~= nil and player.Character:FindFirstChild("HumanoidRootPart") ~= nil and player.Character:FindFirstChild("Humanoid").Health > 0 then
+                    local Vector, onScreen = Camera:worldToViewportPoint(player.Character.HumanoidRootPart.Position)
+                    
+                    local TopTorso = Camera:WorldToViewportPoint(player.Character.Head.Position - Vector3.new(0,0.7,0))
+                    local BottomTorso = Camera:WorldToViewportPoint(player.Character.LowerTorso.Position - Vector3.new(0,0.2,0))
+                    local RightLeg = Camera:WorldToViewportPoint(player.Character.RightUpperLeg.Position + Vector3.new(0,0.2,0))
+                    local LeftLeg = Camera:WorldToViewportPoint(player.Character.LeftUpperLeg.Position + Vector3.new(0,0.2,0))
+                    local RightKnee = Camera:WorldToViewportPoint(player.Character.RightLowerLeg.Position + Vector3.new(0,0.2,0))
+                    local LeftKnee = Camera:WorldToViewportPoint(player.Character.LeftLowerLeg.Position + Vector3.new(0,0.2,0))
+                    local RightFoot = Camera:WorldToViewportPoint(player.Character.RightFoot.Position)
+                    local LeftFoot = Camera:WorldToViewportPoint(player.Character.LeftFoot.Position)
+                    local LeftArm = Camera:WorldToViewportPoint(player.Character.LeftUpperArm.Position + Vector3.new(0,0.2,0))
+                    local RightArm = Camera:WorldToViewportPoint(player.Character.RightUpperArm.Position + Vector3.new(0,0.2,0))
+                    local RightElbow = Camera:WorldToViewportPoint(player.Character.RightLowerArm.Position + Vector3.new(0,0.2,0))
+                    local LeftElbow = Camera:WorldToViewportPoint(player.Character.LeftLowerArm.Position + Vector3.new(0,0.2,0))
+                    local LeftHand = Camera:WorldToViewportPoint(player.Character.LeftHand.Position)
+                    local RightHand = Camera:WorldToViewportPoint(player.Character.RightHand.Position)
+                    
+                    RightFootLine.From = getpos(Camera:WorldToViewportPoint(player.Character.RightLowerLeg.Position + Vector3.new(0,0.2,0)))
+                    LeftFootLine.From = getpos(Camera:WorldToViewportPoint(player.Character.LeftLowerLeg.Position + Vector3.new(0,0.2,0)))
+                    LeftKneeLine.From = getpos(Camera:WorldToViewportPoint(player.Character.LeftUpperLeg.Position + Vector3.new(0,0.2,0)))
+                    RightKneeLine.From = getpos(Camera:WorldToViewportPoint(player.Character.RightUpperLeg.Position + Vector3.new(0,0.2,0)))
+                    RightLegLine.From = getpos(Camera:WorldToViewportPoint(player.Character.LowerTorso.Position - Vector3.new(0,0.2,0)))
+                    LeftLegLine.From = getpos(Camera:WorldToViewportPoint(player.Character.LowerTorso.Position - Vector3.new(0,0.2,0)))
+                    LeftHandLine.From = getpos(Camera:WorldToViewportPoint(player.Character.LeftLowerArm.Position + Vector3.new(0,0.2,0)))
+                    RightHandLine.From = getpos(Camera:WorldToViewportPoint(player.Character.RightLowerArm.Position + Vector3.new(0,0.2,0)))
+                    MainLine.From = getpos(Camera:WorldToViewportPoint(player.Character.Head.Position - Vector3.new(0,0.7,0)))
+                    LeftLine.From = getpos(Camera:WorldToViewportPoint(player.Character.Head.Position - Vector3.new(0,0.7,0)))
+                    RightLine.From = getpos(Camera:WorldToViewportPoint(player.Character.Head.Position - Vector3.new(0,0.7,0)))
+                    RightElbowLine.From = getpos(Camera:WorldToViewportPoint(player.Character.RightUpperArm.Position + Vector3.new(0,0.2,0)))
+                    LeftElbowLine.From = getpos(Camera:WorldToViewportPoint(player.Character.LeftUpperArm.Position + Vector3.new(0,0.2,0)))
+                    
+                    RightFootLine.To = getpos(Camera:WorldToViewportPoint(player.Character.RightFoot.Position))
+                    LeftFootLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LeftFoot.Position))
+                    LeftKneeLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LeftLowerLeg.Position + Vector3.new(0,0.2,0)))
+                    RightKneeLine.To = getpos(Camera:WorldToViewportPoint(player.Character.RightLowerLeg.Position + Vector3.new(0,0.2,0)))
+                    RightLegLine.To = getpos(Camera:WorldToViewportPoint(player.Character.RightUpperLeg.Position + Vector3.new(0,0.2,0)))
+                    LeftLegLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LeftUpperLeg.Position + Vector3.new(0,0.2,0)))
+                    LeftHandLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LeftHand.Position))
+                    RightHandLine.To = getpos(Camera:WorldToViewportPoint(player.Character.RightHand.Position))
+                    MainLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LowerTorso.Position - Vector3.new(0,0.2,0)))
+                    LeftLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LeftUpperArm.Position + Vector3.new(0,0.2,0)))
+                    RightLine.To = getpos(Camera:WorldToViewportPoint(player.Character.RightUpperArm.Position + Vector3.new(0,0.2,0)))
+                    RightElbowLine.To = getpos(Camera:WorldToViewportPoint(player.Character.RightLowerArm.Position + Vector3.new(0,0.2,0)))
+                    LeftElbowLine.To = getpos(Camera:WorldToViewportPoint(player.Character.LeftLowerArm.Position + Vector3.new(0,0.2,0)))
+                    
+                    if onScreen then
+                        RightFootLine.Visible = true
+                        LeftFootLine.Visible = true
+                        LeftKneeLine.Visible = true
+                        RightKneeLine.Visible = true
+                        RightLegLine.Visible = true
+                        LeftLegLine.Visible = true
+                        LeftHandLine.Visible = true
+                        RightHandLine.Visible = true
+                        MainLine.Visible = true
+                        LeftLine.Visible = true
+                        RightLine.Visible = true
+                        RightElbowLine.Visible = true
+                        LeftElbowLine.Visible = true
+                    else
+                        RightFootLine.Visible = false
+                        LeftFootLine.Visible = false
+                        LeftKneeLine.Visible = false
+                        RightKneeLine.Visible = false
+                        RightLegLine.Visible = false
+                        LeftLegLine.Visible = false
+                        LeftHandLine.Visible = false
+                        RightHandLine.Visible = false
+                        MainLine.Visible = false
+                        LeftLine.Visible = false
+                        RightLine.Visible = false
+                        RightElbowLine.Visible = false
+                        LeftElbowLine.Visible = false
+                    end
+                else
+                    RightFootLine:Remove()
+                    LeftFootLine:Remove()
+                    LeftKneeLine:Remove()
+                    RightKneeLine:Remove()
+                    RightLegLine:Remove()
+                    LeftLegLine:Remove()
+                    LeftHandLine:Remove()
+                    RightHandLine:Remove()
+                    MainLine:Remove()
+                    LeftLine:Remove()
+                    RightLine:Remove()
+                    RightElbowLine:Remove()
+                    LeftElbowLine:Remove()
+                end
+            end)
+        end
+    end)
+end
+for i,v in pairs(game.Players:GetChildren()) do
+    addskeletonesp(v)
+end
