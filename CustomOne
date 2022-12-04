@@ -11,7 +11,7 @@ local function addskeletonesp(player)
             function createline(from, to)
                 local Camera = Workspace.CurrentCamera
                 local Line = Drawing.new("Line")
-                Line.Visible = true
+                Line.Visible = Toggles.SkeletonESP.Value
                 Line.From = Vector2.new(from.X, from.Y)
                 Line.To = Vector2.new(to.X, to.Y)
                 Line.Color = Color3.fromRGB(255, 255, 255)
